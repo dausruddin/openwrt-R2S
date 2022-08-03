@@ -34,7 +34,7 @@ jobs:
         mode:
           - normal
           - test
-        target: []
+        target: [r2s]
         include:
         - mode: normal
           title: Squashing builder
