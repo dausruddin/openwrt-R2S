@@ -1,0 +1,107 @@
+## Based on
+## https://github.com/fanck0605/openwrt-nanopi-r2s/blob/openwrt-21.02/patches/luci/0004-luci-mod-status-add-realtime-CPU-information-display.patch
+
+# diff -Naru luci/modules/luci-base/po/en/base.po luci_patched/modules/luci-base/po/en/base.po
+# --- luci/modules/luci-base/po/en/base.po	2021-07-11 12:57:04.301463213 +0800
+# +++ luci_patched/modules/luci-base/po/en/base.po	2021-07-12 16:17:35.394925746 +0800
+# @@ -1510,6 +1510,14 @@
+#  msgid "Coverage cell density"
+#  msgstr ""
+ 
+# +#: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+# +msgid "CPU Status"
+# +msgstr "CPU Status"
+# +
+# +#: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+# +msgid "CPU Usage"
+# +msgstr "CPU Usage"
+# +
+#  #: modules/luci-mod-network/htdocs/luci-static/resources/view/network/interfaces.js:580
+#  #: modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js:2022
+#  msgid "Create / Assign firewall-zone"
+diff -Naru luci/modules/luci-base/root/usr/libexec/rpcd/luci luci_patched/modules/luci-base/root/usr/libexec/rpcd/luci
+--- luci/modules/luci-base/root/usr/libexec/rpcd/luci	2021-07-11 12:57:04.314796362 +0800
++++ luci_patched/modules/luci-base/root/usr/libexec/rpcd/luci	2021-07-12 16:20:06.428380804 +0800
+@@ -612,6 +612,19 @@
+ 			end
+ 			return { result = res }
+ 		end
++	},
++
++	getCPUInfo = {
++		call = function()
++			local sys = require "luci.sys"
++			local cpuinfo = {}
++
++			cpuinfo.freq = sys.exec([[awk '{ printf("%d MHz", $0 / 1000) }' /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq]])
++			cpuinfo.temp = sys.exec([[awk '{ printf("%.1f °C", $0 / 1000) }' /sys/class/thermal/thermal_zone0/temp]])
++			cpuinfo.usage = sys.exec([[top -n1 | awk '/^CPU/ { printf("%d%%", 100 - $8) }']])
++
++			return cpuinfo
++		end
+ 	}
+ }
+ 
+diff -Naru luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js luci_patched/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+--- luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2021-07-11 12:57:04.321462937 +0800
++++ luci_patched/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2021-07-12 16:14:44.744474047 +0800
+@@ -13,6 +13,11 @@
+ 	method: 'info'
+ });
+ 
++var callLuciCPUInfo = rpc.declare({
++	object: 'luci',
++	method: 'getCPUInfo'
++});
++
+ return baseclass.extend({
+ 	title: _('System'),
+ 
+@@ -20,6 +25,7 @@
+ 		return Promise.all([
+ 			L.resolveDefault(callSystemBoard(), {}),
+ 			L.resolveDefault(callSystemInfo(), {}),
++			L.resolveDefault(callLuciCPUInfo(), {}),
+ 			fs.lines('/usr/lib/lua/luci/version.lua')
+ 		]);
+ 	},
+@@ -27,7 +33,8 @@
+ 	render: function(data) {
+ 		var boardinfo   = data[0],
+ 		    systeminfo  = data[1],
+-		    luciversion = data[2];
++		    cpuinfo     = data[2],
++		    luciversion = data[3];
+ 
+ 		luciversion = luciversion.filter(function(l) {
+ 			return l.match(/^\s*(luciname|luciversion)\s*=/);
+@@ -55,6 +55,7 @@
+                        _('Model'),            boardinfo.model,
+                        _('Architecture'),     boardinfo.system,
+                        _('Target Platform'),  (L.isObject(boardinfo.release) ? boardinfo.release.target : ''),
++                       CPU Status,       cpuinfo.freq && cpuinfo.temp && cpuinfo.freq + ', ' + cpuinfo.temp,
+                        _('Firmware Version'), (L.isObject(boardinfo.release) ? boardinfo.release.description + ' / ' : '') + (luciversion || ''),
+                        _('Kernel Version'),   boardinfo.kernel,
+                        _('Local Time'),       datestr,
+@@ -62,7 +70,8 @@
+ 				systeminfo.load[0] / 65535.0,
+ 				systeminfo.load[1] / 65535.0,
+ 				systeminfo.load[2] / 65535.0
+-			) : null
++			) : null,
++			CPU Usage,        cpuinfo.usage
+ 		];
+ 
+ 		var table = E('table', { 'class': 'table' });
+diff -Naru luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci_patched/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
+--- luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2021-07-11 12:57:04.321462937 +0800
++++ luci_patched/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2021-07-12 16:23:09.234943252 +0800
+@@ -3,7 +3,7 @@
+ 		"description": "Grant access to realtime statistics",
+ 		"read": {
+ 			"ubus": {
+-				"luci": [ "getConntrackList", "getRealtimeStats" ],
++				"luci": [ "getConntrackList", "getRealtimeStats", "getCPUInfo" ],
+ 				"network.rrdns": [ "lookup" ]
+ 			}
+ 		}
