@@ -1,0 +1,57 @@
+# https://openwrt.org/docs/guide-developer/uci-defaults
+# https://openwrt.org/docs/guide-user/base-system/uci
+
+# Set openwrt ip
+#uci set network.lan.ipaddr='192.168.56.2'
+
+# Set default theme to argon
+uci set luci.main.mediaurlbase='/luci-static/argon'
+
+# Set argon theme to dark
+uci set argon.@global[0].mode='dark'
+
+# Set DNS to Google
+uci set network.wan.peerdns='0'
+uci add_list network.wan.dns='8.8.8.8' 
+uci add_list network.wan.dns='8.8.4.4'
+uci add_list network.wan.dns='1.1.1.1'
+
+# Enable strict order in dhcp to fix DNS
+uci set dhcp.@dnsmasq[0].strictorder='1'
+
+# Configure firewall for openvpn
+# https://openwrt.org/docs/guide-user/services/vpn/openvpn/client#firewall
+uci rename firewall.@zone[0]="lan"
+uci rename firewall.@zone[1]="wan"
+uci del_list firewall.wan.device="tun+"
+uci add_list firewall.wan.device="tun+"
+
+# Configure basic wireless configuration or LuCi needs restart to get Wireless menu
+touch /etc/config/wireless
+uci set wireless.default_radio0=wifi-iface
+uci set wireless.default_radio0.device='radio0'
+uci set wireless.default_radio0.network='lan'
+uci set wireless.default_radio0.mode='ap'
+uci set wireless.default_radio0.ssid='OpenWrt'
+uci set wireless.default_radio0.encryption='none'
+
+# Enable thermal in luci_statistic
+uci set luci_statistics.collectd_thermal='statistics'
+uci set luci_statistics.collectd_thermal.enable='1'
+
+# Delete sample configs in openvpn
+uci delete openvpn.custom_config
+uci delete openvpn.sample_server
+uci delete openvpn.sample_client
+
+# Set timezone
+uci set system.@system[0].zonename='Asia/Kuala Lumpur'
+uci set system.@system[0].timezone='<+08>-8'
+
+# Add build date to index page
+export orig_version="$(cat "/etc/openwrt_release" | grep DISTRIB_DESCRIPTION | awk -F "'" '{print $2}')"
+sed -i "s/${orig_version}/${orig_version} (2022-08-03_23:50+08)/g" /etc/openwrt_release
+
+# Ensure this script gets deleted
+# https://openwrt.org/docs/guide-developer/uci-defaults#ensuring_scripts_don_t_overwrite_custom_settingsimplementing_checks
+exit 0
