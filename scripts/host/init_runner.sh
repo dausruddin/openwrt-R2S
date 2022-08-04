@@ -11,6 +11,8 @@ install_commands() {
 }
 
 setup_envs() {
+  FORCE_UNSAFE_CONFIGURE=1
+  
   # Do not change
   BUILDER_IMAGE_ID_BUILDENV="tete1030/openwrt-buildenv:latest"
   BUILDER_CONTAINER_ID="builder"
