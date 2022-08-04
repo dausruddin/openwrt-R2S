@@ -19,9 +19,9 @@
 #  #: modules/luci-mod-network/htdocs/luci-static/resources/view/network/interfaces.js:580
 #  #: modules/luci-mod-network/htdocs/luci-static/resources/view/network/wireless.js:2022
 #  msgid "Create / Assign firewall-zone"
-diff -Naru luci/modules/luci-base/root/usr/libexec/rpcd/luci luci_patched/modules/luci-base/root/usr/libexec/rpcd/luci
---- luci/modules/luci-base/root/usr/libexec/rpcd/luci	2021-07-11 12:57:04.314796362 +0800
-+++ luci_patched/modules/luci-base/root/usr/libexec/rpcd/luci	2021-07-12 16:20:06.428380804 +0800
+#diff -Naru luci/modules/luci-base/root/usr/libexec/rpcd/luci luci_patched/modules/luci-base/root/usr/libexec/rpcd/luci
+--- package/openwrt-packages/luci/modules/luci-base/root/usr/libexec/rpcd/luci	2021-07-11 12:57:04.314796362 +0800
++++ package/openwrt-packages/luci/modules/luci-base/root/usr/libexec/rpcd/luci	2021-07-12 16:20:06.428380804 +0800
 @@ -612,6 +612,19 @@
  			end
  			return { result = res }
@@ -42,9 +42,9 @@ diff -Naru luci/modules/luci-base/root/usr/libexec/rpcd/luci luci_patched/module
  	}
  }
  
-diff -Naru luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js luci_patched/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
---- luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2021-07-11 12:57:04.321462937 +0800
-+++ luci_patched/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2021-07-12 16:14:44.744474047 +0800
+#diff -Naru luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js luci_patched/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+--- package/openwrt-packages/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2021-07-11 12:57:04.321462937 +0800
++++ package/openwrt-packages/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2021-07-12 16:14:44.744474047 +0800
 @@ -13,6 +13,11 @@
  	method: 'info'
  });
@@ -93,9 +93,9 @@ diff -Naru luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status
  		];
  
  		var table = E('table', { 'class': 'table' });
-diff -Naru luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci_patched/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
---- luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2021-07-11 12:57:04.321462937 +0800
-+++ luci_patched/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2021-07-12 16:23:09.234943252 +0800
+#diff -Naru luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci_patched/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
+--- package/openwrt-packages/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2021-07-11 12:57:04.321462937 +0800
++++ package/openwrt-packages/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2021-07-12 16:23:09.234943252 +0800
 @@ -3,7 +3,7 @@
  		"description": "Grant access to realtime statistics",
  		"read": {
