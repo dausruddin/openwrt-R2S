@@ -21,26 +21,26 @@ OpenClash https://github.com/vernesong/OpenClash.git use-latest-tag
 syslog-ng https://github.com/openwrt/packages.git ref=master root=feeds/packages subdir=admin/syslog-ng override
 
 # helloworld
-https://github.com/fw876/helloworld.git subdir=luci-app-ssr-plus
-https://github.com/xiaorouji/openwrt-passwall.git subdir=dns2socks
-https://github.com/xiaorouji/openwrt-passwall.git subdir=microsocks
-https://github.com/xiaorouji/openwrt-passwall.git subdir=pdnsd-alt
-https://github.com/xiaorouji/openwrt-passwall.git subdir=tcping
-https://github.com/xiaorouji/openwrt-passwall.git subdir=naiveproxy
-https://github.com/xiaorouji/openwrt-passwall.git subdir=simple-obfs
-https://github.com/xiaorouji/openwrt-passwall.git subdir=trojan
-https://github.com/xiaorouji/openwrt-passwall.git subdir=ipt2socks 
-https://github.com/xiaorouji/openwrt-passwall.git subdir=v2ray-plugin
-https://github.com/xiaorouji/openwrt-passwall.git subdir=shadowsocks-rust
-https://github.com/xiaorouji/openwrt-passwall.git subdir=shadowsocksr-libev
+https://github.com/fw876/helloworld.git subdir=luci-app-ssr-plus/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=dns2socks/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=microsocks/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=pdnsd-alt/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=tcping/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=naiveproxy/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=simple-obfs/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=trojan/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=ipt2socks/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=v2ray-plugin/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=shadowsocks-rust/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=shadowsocksr-libev/
 https://github.com/immortalwrt/packages sudbir=net/redsocks2/
 
 # passwall
-https://github.com/xiaorouji/openwrt-passwall.git ref=luci subdir=luci-app-passwall
-https://github.com/xiaorouji/openwrt-passwall.git subdir=brook 
-https://github.com/xiaorouji/openwrt-passwall.git subdir=chinadns-ng 
-https://github.com/xiaorouji/openwrt-passwall.git subdir=trojan-go 
-https://github.com/xiaorouji/openwrt-passwall.git subdir=trojan-plus 
-https://github.com/xiaorouji/openwrt-passwall.git subdir=hysteria 
-https://github.com/xiaorouji/openwrt-passwall.git subdir=v2ray-core 
-https://github.com/xiaorouji/openwrt-passwall.git subdir=xray-plugin 
+https://github.com/xiaorouji/openwrt-passwall.git ref=luci subdir=luci-app-passwall/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=brook/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=chinadns-ng/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=trojan-go/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=trojan-plus/
+https://github.com/xiaorouji/openwrt-passwall.git subdir=hysteria
+https://github.com/xiaorouji/openwrt-passwall.git subdir=v2ray-core
+https://github.com/xiaorouji/openwrt-passwall.git subdir=xray-plugin
