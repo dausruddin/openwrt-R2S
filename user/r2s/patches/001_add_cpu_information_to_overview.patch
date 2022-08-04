@@ -93,7 +93,7 @@
  		];
  
  		var table = E('table', { 'class': 'table' });
-#diff -Naru luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci_patched/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
+#diff -Naru luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci_patched/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json 
 --- package/openwrt-packages/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2021-07-11 12:57:04.321462937 +0800
 +++ package/openwrt-packages/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2021-07-12 16:23:09.234943252 +0800
 @@ -3,7 +3,7 @@
