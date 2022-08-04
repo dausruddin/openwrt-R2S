@@ -43,8 +43,8 @@
  }
  
 #diff -Naru luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js luci_patched/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
---- package/openwrt-packages/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2021-07-11 12:57:04.321462937 +0800
-+++ package/openwrt-packages/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2021-07-12 16:14:44.744474047 +0800
+--- package/openwrt-packages/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2022-08-05 00:59:46.758574035 +0800
++++ package/openwrt-packages/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js	2022-08-05 00:59:58.888565024 +0800
 @@ -13,6 +13,11 @@
  	method: 'info'
  });
@@ -75,24 +75,23 @@
  
  		luciversion = luciversion.filter(function(l) {
  			return l.match(/^\s*(luciname|luciversion)\s*=/);
-@@ -55,6 +55,7 @@
-                        _('Model'),            boardinfo.model,
-                        _('Architecture'),     boardinfo.system,
-                        _('Target Platform'),  (L.isObject(boardinfo.release) ? boardinfo.release.target : ''),
-+                       CPU Status,       cpuinfo.freq && cpuinfo.temp && cpuinfo.freq + ', ' + cpuinfo.temp,
-                        _('Firmware Version'), (L.isObject(boardinfo.release) ? boardinfo.release.description + ' / ' : '') + (luciversion || ''),
-                        _('Kernel Version'),   boardinfo.kernel,
-                        _('Local Time'),       datestr,
-@@ -62,7 +70,8 @@
- 				systeminfo.load[0] / 65535.0,
+@@ -55,6 +62,7 @@
+ 			_('Model'),            boardinfo.model,
+ 			_('Architecture'),     boardinfo.system,
+ 			_('Target Platform'),  (L.isObject(boardinfo.release) ? boardinfo.release.target : ''),
++			CPU Status,       cpuinfo.freq && cpuinfo.temp && cpuinfo.freq + ', ' + cpuinfo.temp,
+ 			_('Firmware Version'), (L.isObject(boardinfo.release) ? boardinfo.release.description + ' / ' : '') + (luciversion || ''),
+ 			_('Kernel Version'),   boardinfo.kernel,
+ 			_('Local Time'),       datestr,
+@@ -64,6 +72,7 @@
  				systeminfo.load[1] / 65535.0,
  				systeminfo.load[2] / 65535.0
--			) : null
-+			) : null,
+ 			) : null
 +			CPU Usage,        cpuinfo.usage
  		];
  
  		var table = E('table', { 'class': 'table' });
+ 		
 #diff -Naru luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json luci_patched/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json 
 --- package/openwrt-packages/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2021-07-11 12:57:04.321462937 +0800
 +++ package/openwrt-packages/luci/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json	2021-07-12 16:23:09.234943252 +0800
